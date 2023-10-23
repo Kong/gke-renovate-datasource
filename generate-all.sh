@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GOOGLE_LOCATION="us-central1-c"
+set -euo pipefail
 
 echo "Generating Stable channel"
 go run . --channel stable --location "${GOOGLE_LOCATION}" > ./static/stable.json

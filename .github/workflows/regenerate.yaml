@@ -31,6 +31,8 @@ jobs:
           go-version-file: go.mod
 
       - name: run regenerate
+        env:
+          GOOGLE_LOCATION: us-central1-c
         run: ./generate-all.sh
 
       - name: commit changes
