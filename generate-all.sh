@@ -1,10 +1,12 @@
 #!/bin/bash
 
+set -euo pipefail
+
 echo "Generating Stable channel"
-go run . --channel stable  > ./static/stable.json
+go run . --channel stable --location "${GOOGLE_LOCATION}" > ./static/stable.json
 
 echo "Generating Regular channel"
-go run . --channel regular > ./static/regular.json
+go run . --channel regular --location "${GOOGLE_LOCATION}" > ./static/regular.json
 
 echo "Generating Rapid channel"
-go run . --channel rapid > ./static/rapid.json
+go run . --channel rapid --location "${GOOGLE_LOCATION}" > ./static/rapid.json

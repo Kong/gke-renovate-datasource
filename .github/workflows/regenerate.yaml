@@ -3,6 +3,7 @@ name: regenerate
 on:
   schedule:
     - cron: '30 3 * * *'
+  pull_request: {}
   workflow_dispatch: {}
 
 jobs:
@@ -14,17 +15,32 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: auth with gcloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}'
+
+      - name: setup gcloud
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: '>= 451.0.1'
+
       - name: setup golang
         uses: actions/setup-go@v4
         with:
           go-version-file: go.mod
 
       - name: run regenerate
+        env:
+          GOOGLE_LOCATION: us-central1-c
         run: ./generate-all.sh
 
       - name: commit changes
+        if: github.event_name == 'schedule'
         run: |
-          git config user.name github-actions
-          git config user.email email@email.com
-          git commit -am "Regenerated all GKE channels" || echo "There is nothing to commit"
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@users.noreply.github.com"
+          git add ./static/rapid.json ./static/regular.json ./static/stable.json
+          git diff-index --quiet HEAD || \
+          git commit -m "Regenerated all GKE channels" && \
           git push
