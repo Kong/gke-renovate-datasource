@@ -9,6 +9,7 @@ import (
 	"os/exec"
 	"strings"
 
+	"github.com/samber/lo"
 	"gopkg.in/yaml.v2"
 )
 
@@ -109,5 +110,5 @@ func extractReleases(cmdOut string) ([]Release, error) {
 		v = strings.Split(v, "-")[0]
 		releases = append(releases, Release{Version: v})
 	}
-	return releases, nil
+	return lo.Uniq(releases), nil
 }
