@@ -1,7 +1,13 @@
 {
  "releases": [
   {
+   "version": "1.29.6"
+  },
+  {
    "version": "1.29.5"
+  },
+  {
+   "version": "1.28.11"
   },
   {
    "version": "1.28.10"
