@@ -21,12 +21,17 @@ type Release struct {
 	Version string `json:"version"`
 }
 
+const (
+	stdOutOutput = "stdout"
+)
+
 // This program is used to generate Google Kubernetes Engine JSON versions for Renovate custom datasource.
 // Custom datasource docs: https://docs.renovatebot.com/modules/datasource/custom/
 func main() {
 	ctx := context.Background()
 	requestedChannel := flag.String("channel", "stable", "Channel to scrape")
-	requestedLocation := flag.String("location", "us-central-1c", "GCP location to check versions for (they might differ per location)")
+	requestedLocation := flag.String("location", "us-central1-c", "GCP location to check versions for (they might differ per location)")
+	targetFile := flag.String("out", stdOutOutput, "Target file to write the output")
 	flag.Parse()
 
 	channel, err := scrapeChannel(ctx, *requestedChannel, *requestedLocation)
@@ -35,12 +40,30 @@ func main() {
 		os.Exit(1)
 	}
 
-	encoder := json.NewEncoder(os.Stdout)
-	encoder.SetIndent("", " ")
-	if err := encoder.Encode(channel); err != nil {
-		fmt.Println("Error encoding JSON:", err)
+	if saveOutput(channel, *targetFile); err != nil {
+		fmt.Println("Error saving output:", err)
 		os.Exit(1)
 	}
+}
+
+func saveOutput(channel Channel, targetFile string) error {
+	var encoder *json.Encoder
+	if targetFile == stdOutOutput {
+		encoder = json.NewEncoder(os.Stdout)
+	} else {
+		file, err := os.Create(targetFile)
+		if err != nil {
+			return fmt.Errorf("error creating file: %w", err)
+		}
+		defer file.Close()
+		encoder = json.NewEncoder(file)
+	}
+
+	encoder.SetIndent("", " ")
+	if err := encoder.Encode(channel); err != nil {
+		return fmt.Errorf("error encoding JSON: %w", err)
+	}
+	return nil
 }
 
 func scrapeChannel(ctx context.Context, channel string, location string) (Channel, error) {
