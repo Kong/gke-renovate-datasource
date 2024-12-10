@@ -25,3 +25,9 @@ Supported channels:
 A nightly job is run to update the JSON files in the `main` branch.
 
 [renovate-custom-datasource]: https://docs.renovatebot.com/modules/datasource/custom/
+
+
+### Permission Required
+
+This project accesses data through Google Cloud's API and requires the `container.clusters.list` permission.
+To make it work, we can grant the `Kubernetes Engine Cluster Viewer` role to the Google account running this project.
