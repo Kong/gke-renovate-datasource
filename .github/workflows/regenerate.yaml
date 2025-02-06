@@ -9,6 +9,9 @@ on:
 jobs:
   regenerate-all-channels:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required for git push
+
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
