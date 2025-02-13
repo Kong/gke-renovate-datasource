@@ -1,13 +1,13 @@
 {
  "releases": [
   {
-   "version": "1.30.5"
+   "version": "1.31.4"
   },
   {
-   "version": "1.29.10"
+   "version": "1.30.8"
   },
   {
-   "version": "1.28.15"
+   "version": "1.29.12"
   }
  ]
 }

@@ -1,34 +1,16 @@
 {
  "releases": [
   {
-   "version": "1.32.0"
+   "version": "1.32.1"
   },
   {
-   "version": "1.31.4"
+   "version": "1.31.5"
   },
   {
-   "version": "1.31.3"
+   "version": "1.30.9"
   },
   {
-   "version": "1.30.8"
-  },
-  {
-   "version": "1.30.7"
-  },
-  {
-   "version": "1.30.6"
-  },
-  {
-   "version": "1.29.12"
-  },
-  {
-   "version": "1.29.11"
-  },
-  {
-   "version": "1.29.10"
-  },
-  {
-   "version": "1.28.15"
+   "version": "1.29.13"
   }
  ]
 }
